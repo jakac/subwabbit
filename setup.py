@@ -100,7 +100,7 @@ setup(
     package_data={
         '': ['CHANGELOG.md']
     },
-    packages=find_packages(),
+    packages=find_packages(exclude=("tests", )),
     install_requires=[
         'mypy-lang',
         'typing',
