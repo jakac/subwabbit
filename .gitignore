@@ -8,6 +8,8 @@
 .mypy_cache/
 
 docs/build/
+build/
+dist/
 
 tests/benchmarks/model.vw
 */.ipynb_checkpoints
