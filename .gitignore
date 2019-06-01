@@ -1,0 +1,13 @@
+.idea/
+.pytest_cache
+*/__pycache__
+.benchmarks
+*.pyc
+*.egg-info
+.eggs
+.mypy_cache/
+
+docs/build/
+
+tests/benchmarks/model.vw
+*/.ipynb_checkpoints
