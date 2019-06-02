@@ -4,7 +4,7 @@ Fast Python Vowpal Wabbit wrapper
 *For Kaggle playing use official vowpalwabbit package, for production use subwabbit.*
 
 **subwabbit** is Python wrapper around great `Vowpal Wabbit <https://github.com/VowpalWabbit/vowpal_wabbit/>`_ tool
-that aims to be as fast as Vowpal itself. It is ideal for real time use, when many lines needs to be scored
+that aims to be as fast as Vowpal itself. It is ideal for real time use, when many lines need to be scored
 in just few milliseconds or when high throughput is required.
 
 **Advantages**:
