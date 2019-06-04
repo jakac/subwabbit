@@ -75,7 +75,7 @@ Example use
     0.5
     0.6
 
-This is the simplest use of *subwabbit* library. You have some common features that describes context
+This is the simplest use of *subwabbit* library. You have some common features that describe context
 - it can be location of user or daytime for example. Then there is collection of items to score, each item has
 its specific features. Use of `timeout` argument means "compute as many predictions as you can in 1ms", then stop.
 

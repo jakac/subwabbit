@@ -1,8 +1,8 @@
 Throughput vs. latency
 ======================
 
-There are two implementations of :class:`subwabbit.base.VowpalWabbitBaseModel`. Both implementation
-runs ``vw`` subprocess and communicates with subprocess through pipes, but implementation differs in whether
+There are two implementations of :class:`subwabbit.base.VowpalWabbitBaseModel`. Both implementations
+run ``vw`` subprocess and communicates with subprocess through pipes, but implementations differ in whether
 pipe is blocking or nonblocking.
 
 Blocking
@@ -29,7 +29,7 @@ Nonblocking
 
 .. warning::
 
-    Nonblocking implementation is available only for Linux based systems.
+    Nonblocking implementation is only available for Linux based systems.
 
 
 .. warning::
@@ -37,12 +37,12 @@ Nonblocking
     Training is not implemented for nonblocking variant.
 
 
-Blocking implementation have great throughput, depends on features you have and arguments of vw process, it can be
-optimal in a sense that Vowpal itself is a bottleneck. However, due to blocking system calls, it can sometimes miss
-`timeout`. It is problem if there is SLO with low-latency requirements.
+Blocking implementation has great throughput, depends on features you have and arguments of vw process, it can be even
+optimal, so Vowpal itself is a bottleneck. However, due to blocking system calls, it can miss
+`timeout`. That is unacceptable if there is SLO with low-latency requirements.
 
-Nonblocking implementation works similar to blocking, but it do not block for system calls when there are no predictions
-to read or system level buffer for VW lines is full, which helps to keep latencies very stable.
+Nonblocking implementation works similar to blocking, but it does not block for system calls when there are no
+predictions to read or system level buffer for VW lines is full, which helps to keep latencies very stable.
 
 There is comparison of running time of :func:`~subwabbit.base.VowpalWabbitBaseModel.predict`
 method with `timeout` set to 10ms:
@@ -98,7 +98,8 @@ Predicted lines per request:
 
 .. note::
 
-    Nonblocking implementation can have even zero predictions per call. It can happen because if
-    previous call had not enough time to clean buffers before timeout, next call have to do that and it can take all the time.
+    Nonblocking implementation may have even zero predictions per call. It can happen due to
+    previous call not having enough time to clean buffers before timeout, thus next call has to clean buffers and that
+    can take all of it's time.
     See :func:`~subwabbit.nonblocking.VowpalWabbitNonBlockingProcess.predict` `metrics` argument for details how
     to monitor this behavior.
