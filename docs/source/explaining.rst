@@ -33,6 +33,7 @@ look like this:
 
 Features used for prediction are separated by `tab` and for each feature, there is string in format:
 
+
 .. code-block::
 
     namespace^feature:hashindex:value:weight[@ssgrad]
@@ -67,13 +68,13 @@ Notes
 
 .. note::
 
-    This explanation is valid if you use sparse feature, since expected value of every feature is close to zero.
+    This explanation is valid if you use sparse features, since expected value of every feature is close to zero.
     When you use dense features, you should normalize your features. If you do not normalize to zero mean,
     explaining features by their absolute contribution is not informative
     because you also need to consider how feature value differs from some expected value of that feature.
     In this case, you should use SHAP values for better interpretability,
     see https://www.kaggle.com/learn/machine-learning-explainability for more details. You still may find
-    *subwabbit* explaining functionality useful, but you will need more work to correctly interpret the results.
+    *subwabbit* explaining functionality useful, but interpreting results results won't be straightforward.
 
 .. note::
 

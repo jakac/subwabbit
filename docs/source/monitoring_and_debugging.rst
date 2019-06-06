@@ -15,8 +15,8 @@ metrics:
 - ``metrics`` - one numeric measurment per one call of `predict()` method. They are relatively cheap to collect and
   should be monitored in production.
 - ``detailed_metrics`` - more measurements per one call of `predict()`. Each metric value is a list containing
-  tuple ``(time, numeric value)``. Their collection brings some overhead,
-  for example for reallocation of memory of growing lists as number of measurements grows.
+  tuple ``(time, numeric value)``. Their collection brings some overhead
+  (e.g. reallocation of memory for growing lists of measurements).
   They are useful for profiling and can answer questions like "What is the bottleneck, formatting Vowpal lines
   or Vowpal itself?" or "Can change in some parameter bring some additional performance?".
 
