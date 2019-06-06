@@ -23,20 +23,9 @@ At first, you need to turn on `audit_mode` by passing ``audit_mode=True`` argume
 
 
 Then use :func:`~subwabbit.base.VowpalWabbitBaseModel.explain_vw_line` to retrieve explanation string. It will
-look like this:
+look like this: :code:`c^c8*f^f10237121819548268936:23365229:1:0.0220863@0	a^a3426538138935958091*e^e115:1296634:0.2:0.0987504@0`
 
-
-.. code-block::
-
-    c^c8*f^f10237121819548268936:23365229:1:0.0220863@0	a^a3426538138935958091*e^e115:1296634:0.2:0.0987504@0
-
-
-Features used for prediction are separated by `tab` and for each feature, there is string in format:
-
-
-.. code-block::
-
-    namespace^feature:hashindex:value:weight[@ssgrad]
+Features used for prediction are separated by `tab` and for each feature, there is string in format: :code:`namespace^feature:hashindex:value:weight[@ssgrad]`
 
 
 Then we can use :func:`~subwabbit.base.VowpalWabbitBaseFormatter.get_human_readable_explanation` function
