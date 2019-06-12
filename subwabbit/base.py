@@ -24,7 +24,7 @@ class VowpalWabbitBaseFormatter(ABC):
 
         :param common_features: Features common for all items
         :param debug_info: Optional dict that can be filled by information useful for debugging
-        :return: Part of line that is common for each item in one call. Returned string have to start with '|' symbol.
+        :return: Part of line that is common for each item in one call. Returned string has to start with '|' symbol.
         """
         raise NotImplementedError()
 
@@ -38,7 +38,7 @@ class VowpalWabbitBaseFormatter(ABC):
 
         .. note::
 
-            It is good idea to cache this method calls.
+            It is a good idea to cache results of this method.
 
 
         :param common_features: Features common for all items
