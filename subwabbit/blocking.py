@@ -275,10 +275,14 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
         # let this method fail on calling pop(0) on empty list
         num_predictions = self.unprocessed_batch_sizes.pop(0)
         t0 = time.perf_counter()
-        predictions = [
-            float(self.vw_process.stdout.readline().strip().split()[0])
-            for _ in range(num_predictions)
-        ]
+        predictions = []
+        received_line = None
+        try:
+            for _ in range(num_predictions):
+                received_line = self.vw_process.stdout.readline().strip()
+                predictions.append(float(received_line.split()[0]))
+        except (ValueError, IndexError):
+            raise ValueError('Wrong format of prediction: "%s"', received_line)
         if detailed_metrics:
             detailed_metrics['receiving_lines_time'].append((time.perf_counter(), time.perf_counter() - t0))
         return predictions
