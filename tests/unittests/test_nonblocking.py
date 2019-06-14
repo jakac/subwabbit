@@ -242,7 +242,7 @@ def test_predict_without_timeout(written_bytes, vowpal_output_buffer_reads, num_
     written_stream = b''
     for c, num_bytes in zip(vw_process.stdin.write.mock_calls, written_bytes):
         written_stream += c[1][0][:num_bytes if num_bytes is not None else 0]
-    expected_written_stream = bytes('\n'.join([formatter.get_vw_line(common_features, item_features) for item_features in items_features]) + '\n', 'utf-8')
+    expected_written_stream = bytes('\n'.join([formatter.get_formatted_example(common_features, item_features) for item_features in items_features]) + '\n', 'utf-8')
     assert written_stream == expected_written_stream
 
     assert predictions == [float(p.strip()) for p in b''.join(b for b in vowpal_output_buffer_reads if b is not None).decode('utf-8').split()]

@@ -26,12 +26,12 @@ class PyVWModel(VowpalWabbitBaseModel):
         please_respond_to = None
         if timeout:
             please_respond_to = perf_counter() + timeout
-        common_line_part = self.formatter.get_common_line_part(common_features)
+        common_line_part = self.formatter.format_common_features(common_features)
         for item_features in items_features:
             if please_respond_to is not None and perf_counter() > please_respond_to:
                 break
-            item_line_part = self.formatter.get_item_line_part(common_features, item_features)
-            vw_line = self.formatter.get_vw_line(common_line_part, item_line_part)
+            item_line_part = self.formatter.format_item_features(common_features, item_features)
+            vw_line = self.formatter.get_formatted_example(common_line_part, item_line_part)
             example = self.vw_model.example(vw_line)
             yield self.vw_model.predict(example)
 

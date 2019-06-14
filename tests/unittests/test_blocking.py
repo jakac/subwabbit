@@ -50,7 +50,7 @@ def test_predict_without_timeout(return_predictions_batch):
         items_from = i * batch_size
         items_to = i * batch_size + batch_size
         assert performed_call == call(
-            [formatter.get_vw_line(common_features, item_features) for item_features in items_features[items_from:items_to]],
+            [formatter.get_formatted_example(common_features, item_features) for item_features in items_features[items_from:items_to]],
             detailed_metrics, debug_info=None
         )
 
@@ -116,7 +116,7 @@ def test_predict_with_timeout(return_predictions_batch, expected_predictions, ti
         items_from = i * batch_size
         items_to = i * batch_size + batch_size
         assert performed_call == call(
-            [formatter.get_vw_line(common_features, item_features) for item_features in items_features[items_from:items_to]],
+            [formatter.get_formatted_example(common_features, item_features) for item_features in items_features[items_from:items_to]],
             detailed_metrics, debug_info=None
         )
 
@@ -183,7 +183,7 @@ def test_predict_io_calls(return_predictions_batch):
             expected_calls.append(
                 call.write(
                     bytes(
-                        '\n'.join([formatter.get_vw_line(common_features, item_features) for item_features in
+                        '\n'.join([formatter.get_formatted_example(common_features, item_features) for item_features in
                                    items_features[items_from:items_to]]) + '\n',
                         encoding='utf-8'
                     )
@@ -252,7 +252,7 @@ def test_train(return_predictions_batch):
                 call.write(
                     bytes(
                         '\n'.join([
-                            formatter.get_vw_line(common_features, item_features, label, weight)
+                            formatter.get_formatted_example(common_features, item_features, label, weight)
                             for item_features, label, weight in zip(
                                 items_features[items_from:items_to],
                                 labels[items_from:items_to],
@@ -314,7 +314,7 @@ def test_train_write_only(return_predictions_batch):
                 call.write(
                     bytes(
                         '\n'.join([
-                            formatter.get_vw_line(common_features, item_features, label, weight)
+                            formatter.get_formatted_example(common_features, item_features, label, weight)
                             for item_features, label, weight in zip(
                                 items_features[items_from:items_to],
                                 labels[items_from:items_to],

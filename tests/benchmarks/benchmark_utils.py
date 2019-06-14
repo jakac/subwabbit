@@ -12,7 +12,7 @@ PREDICTION_TIMEOUT = 0.01
 
 class BenchmarkFormatter(VowpalWabbitBaseFormatter):
 
-    def get_common_line_part(self, common_features, debug_info=None):
+    def format_common_features(self, common_features, debug_info=None):
         return ' '.join([
             '|d {}'.format(' '.join('d{}:{:.2f}'.format(k, v) for k, v in common_features['d'].items())),
             '|e {}'.format(' '.join('e{}:{:.2f}'.format(k, v) for k, v in common_features['e'].items())),
@@ -22,7 +22,7 @@ class BenchmarkFormatter(VowpalWabbitBaseFormatter):
             '|i i{}'.format(common_features['i'])
         ])
 
-    def get_item_line_part(self, common_features, item_features, debug_info=None):
+    def format_item_features(self, common_features, item_features, debug_info=None):
         return ' '.join([
             '|a a{}'.format(item_features['a']),
             '|b b{}'.format(item_features['b']),

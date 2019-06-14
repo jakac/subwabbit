@@ -146,7 +146,7 @@ class VowpalWabbitNonBlockingProcess(VowpalWabbitBaseModel):
                         - ``before_cleanup_pending_lines`` - Count of lines pending in buffers before cleaning
                         - ``after_cleanup_pending_lines`` - Count of lines pending in buffers after cleaning
                         - ``prepare_time`` - Time from call start to start of prediction loop, including
-                          ``get_common_line_part`` call
+                          ``format_common_features`` call
                         - ``total_time`` - Total time spend in predict call
                         - ``num_lines`` - Count of predictions performed
 
@@ -190,7 +190,7 @@ class VowpalWabbitNonBlockingProcess(VowpalWabbitBaseModel):
             metrics['cleanup_time'] = time.perf_counter() - t0
             metrics['after_cleanup_pending_lines'] = self._pending_lines
 
-        common_line_part = self.formatter.get_common_line_part(common_features, debug_info=debug_info)
+        common_line_part = self.formatter.format_common_features(common_features, debug_info=debug_info)
         batch = []
         all_lines_generated = False
 
@@ -198,8 +198,8 @@ class VowpalWabbitNonBlockingProcess(VowpalWabbitBaseModel):
         # and we assume that each iteration will start where previous ended
         items_features = iter(items_features)
 
-        _get_item_line_part = self.formatter.get_item_line_part  # for faster access in for-loop
-        _get_vw_line = self.formatter.get_vw_line  # for faster access in for-loop
+        _get_item_line_part = self.formatter.format_item_features  # for faster access in for-loop
+        _get_vw_line = self.formatter.get_formatted_example  # for faster access in for-loop
 
         if metrics:
             metrics['prepare_time'] = time.perf_counter() - total_t0

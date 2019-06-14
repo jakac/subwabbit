@@ -112,13 +112,13 @@ Then implementation with use of formatter can look like this:
 
     class MyVowpalWabbitFormatter(VowpalWabbitBaseFormatter):
 
-        def get_common_line_part(self, common_features, debug_info=None):
+        def format_common_features(self, common_features, debug_info=None):
             return '|a ccommon_feature1:{:.2f} common_feature2:{:.2f}'.format(
                 common_features['common_feature1'],
                 common_features['common_feature2']
             )
 
-        def get_item_line_part(self, common_features, item_features, debug_info=None):
+        def format_item_features(self, common_features, item_features, debug_info=None):
             return '|b {}'.format(item_features['id'])
 
     vw = VowpalWabbitProcess(MyVowpalWabbitFormatter(), ['-q', 'ab'])

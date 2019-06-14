@@ -15,8 +15,8 @@ class VowpalWabbitBaseFormatter(ABC):
     """
 
     @abstractmethod
-    def get_common_line_part(self, common_features: Any,
-                             debug_info: Any = None) -> str:
+    def format_common_features(self, common_features: Any,
+                               debug_info: Any = None) -> str:
         """
         Return part of VW line with features that are common for one call of predict/train.
         This method will run just once per one call of
@@ -29,8 +29,8 @@ class VowpalWabbitBaseFormatter(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_item_line_part(self, common_features: Any, item_features: Any,
-                           debug_info: Any = None) -> str:
+    def format_item_features(self, common_features: Any, item_features: Any,
+                             debug_info: Any = None) -> str:
         """
         Return part of VW line with features specific to each item.
         This method will run for each item per one call of
@@ -45,7 +45,7 @@ class VowpalWabbitBaseFormatter(ABC):
         :param item_features: Features for item
         :param debug_info: Optional dict that can be filled by information useful for debugging
         :return: Part of line that is specific for item. Depends on whether namespaces are used or not in
-                 ``get_common_line_part`` method:
+                 ``format_common_features`` method:
 
                  - namespaces are used: returned string has to start with ``'|NAMESPACE_NAME'`` where `NAMESPACE_NAME`
                    is the name of some namespace
@@ -54,9 +54,9 @@ class VowpalWabbitBaseFormatter(ABC):
         raise NotImplementedError()
 
     # pylint: disable=too-many-arguments,no-self-use
-    def get_vw_line(self, common_line_part: str, item_line_part: str,
-                    label: Optional[float] = None, weight: Optional[float] = None,
-                    debug_info: Optional[Dict[Any, Any]] = None):  # pylint: disable=unused-argument
+    def get_formatted_example(self, common_line_part: str, item_line_part: str,
+                              label: Optional[float] = None, weight: Optional[float] = None,
+                              debug_info: Optional[Dict[Any, Any]] = None):  # pylint: disable=unused-argument
         """
         Compose valid VW line from its common and item-dependent parts.
 
@@ -227,12 +227,12 @@ class VowpalWabbitDummyFormatter(VowpalWabbitBaseFormatter):
     Formatter that assumes that either common features and item features are already formatted VW input format strings.
     """
 
-    def get_common_line_part(self, common_features: str,
-                             debug_info: Optional[Dict[Any, Any]] = None) -> str:
+    def format_common_features(self, common_features: str,
+                               debug_info: Optional[Dict[Any, Any]] = None) -> str:
         return common_features
 
-    def get_item_line_part(self, common_features: Any, item_features: str,
-                           debug_info: Optional[Dict[Any, Any]] = None) -> str:
+    def format_item_features(self, common_features: Any, item_features: str,
+                             debug_info: Optional[Dict[Any, Any]] = None) -> str:
         return item_features
 
 

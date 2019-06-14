@@ -6,10 +6,10 @@ from subwabbit import VowpalWabbitProcess, VowpalWabbitNonBlockingProcess, Vowpa
 
 class TestFormatter(VowpalWabbitBaseFormatter):
 
-    def get_common_line_part(self, user_features, debug_info=None):
+    def format_common_features(self, user_features, debug_info=None):
         return '|u u{}'.format(user_features['user_id'])
 
-    def get_item_line_part(self, user_features, item_features, debug_info=None):
+    def format_item_features(self, user_features, item_features, debug_info=None):
         return '|i i{}'.format(item_features['item_id'])
 
 

@@ -109,7 +109,7 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
         :param metrics: Optional dict populated with metrics that are good to monitor:
 
                         - ``prepare_time`` - Time from call start to start of prediction loop, including
-                          ``get_common_line_part`` call
+                          ``format_common_features`` call
                         - ``total_time`` - Total time spend in predict call
                         - ``num_lines`` - Count of predictions performed
 
@@ -140,12 +140,12 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
             detailed_metrics['sending_lines_time'] = []
             detailed_metrics['receiving_lines_time'] = []
 
-        common_line_part = self.formatter.get_common_line_part(common_features, debug_info=debug_info)
+        common_line_part = self.formatter.format_common_features(common_features, debug_info=debug_info)
 
         batch = []
         first_pass = True
-        _get_item_line_part = self.formatter.get_item_line_part  # for faster access in for-loop
-        _get_vw_line = self.formatter.get_vw_line  # for faster access in for-loop
+        _get_item_line_part = self.formatter.format_item_features  # for faster access in for-loop
+        _get_vw_line = self.formatter.get_formatted_example  # for faster access in for-loop
 
         if metrics:
             metrics['prepare_time'] = time.perf_counter() - total_t0
@@ -199,11 +199,11 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
             labels: Iterable[float],
             weights: Iterable[Optional[float]],
             debug_info: Any = None) -> None:
-        common_line_part = self.formatter.get_common_line_part(common_features, debug_info=debug_info)
+        common_line_part = self.formatter.format_common_features(common_features, debug_info=debug_info)
         batch = []
         first_pass = True
-        _get_item_line_part = self.formatter.get_item_line_part  # for faster access in for-loop
-        _get_vw_line = self.formatter.get_vw_line  # for faster access in for-loop
+        _get_item_line_part = self.formatter.format_item_features  # for faster access in for-loop
+        _get_vw_line = self.formatter.get_formatted_example  # for faster access in for-loop
         for item_features, label, weight in zip(items_features, labels, weights):
             item_line_part = _get_item_line_part(common_features, item_features, debug_info=debug_info)
             vw_line = _get_vw_line(common_line_part, item_line_part, label=label, weight=weight,
