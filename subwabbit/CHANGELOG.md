@@ -1,5 +1,9 @@
 # subwabbit
 
+## [2.0.2] - 2020-06-18 15:03 - Jan Seifert <jan.seifert@firma.seznam.cz>
+### Fixed
+- remove obsolete `mypy-lang` dependency
+
 ## [2.0.1] - 2019-10-17 11:20 - Jan Perich <jan.perich@firma.seznam.cz>
 ### Changed
 - conditional dependency on typing package
