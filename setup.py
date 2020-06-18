@@ -102,7 +102,6 @@ setup(
     },
     packages=['subwabbit'],
     install_requires=[
-        'mypy-lang',
         "typing; python_version < '3.5'",
     ],
     tests_require=[
