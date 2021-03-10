@@ -65,9 +65,11 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
         except:  # pylint: disable=bare-except
             pass
 
-    def close(self):
+    def close(self, timeout=120):
         """
         Gracefully stop Vowpal Wabbit process
+
+        :param timeout: Timeout for closing the VW process.
         """
         self.vw_process.stdin.close()
         if not self.write_only:
@@ -79,7 +81,7 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
                 logger.warning('You left some data in Vowpal stdout buffer: %s', str(stdout_not_empty))
             self.vw_process.stdout.close()
         # VW should exit after closing its stdin, so lets wait for it
-        if self.vw_process.wait(timeout=120) != 0:
+        if self.vw_process.wait(timeout=timeout) != 0:
             raise VowpalWabbitError('Vowpal Wabbit process returned non-zero return code')
 
     def _check_empty_buffer(self):
@@ -283,6 +285,34 @@ class VowpalWabbitProcess(VowpalWabbitBaseModel):
                 predictions.append(float(received_line.split()[0]))
         except (ValueError, IndexError):
             raise ValueError('Wrong format of prediction: "%s"', received_line)
+        if detailed_metrics:
+            detailed_metrics['receiving_lines_time'].append((time.perf_counter(), time.perf_counter() - t0))
+        return predictions
+
+
+class VowpalWabbitPLTProcess(VowpalWabbitProcess):
+    """
+    Class representing Vowpal Wabbit model. It runs ``vw`` command
+    through subprocess library and communicates through pipes.
+
+    The only difference from VowpalWabbitProcess
+    is the support of Probablistic Label Tree functionality in prediction.
+    https://vowpalwabbit.org/blog/vowpalwabbit-8.9.0.html#probabilistic-label-tree
+
+    Returned predictions are strings rather than floats.
+    """
+
+    def _get_predictions_from_vowpal(self, detailed_metrics=None, debug_info=None):  # pylint:  disable=unused-argument
+        # There should be check whether instance is not in write-only mode,
+        # but for predictions we have to be damn fast so eventually
+        # let this method fail on calling pop(0) on empty list
+        num_predictions = self.unprocessed_batch_sizes.pop(0)
+        t0 = time.perf_counter()
+        predictions = []
+        received_line = None
+        for _ in range(num_predictions):
+            received_line = self.vw_process.stdout.readline().strip()
+            predictions.append(received_line.decode("utf-8"))
         if detailed_metrics:
             detailed_metrics['receiving_lines_time'].append((time.perf_counter(), time.perf_counter() - t0))
         return predictions
