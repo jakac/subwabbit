@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Tuple, Iterable, Any, Optional
+from typing import Dict, List, Tuple, Iterable, Any, Optional, Union
 
 
 class VowpalWabbitError(Exception):
@@ -255,7 +255,7 @@ class VowpalWabbitBaseModel(ABC):
             debug_info: Any = None,
             metrics: Optional[Dict] = None,
             detailed_metrics: Optional[Dict] = None
-        ) -> Iterable[float]:
+        ) -> Iterable[Union[float,str]]:
         """
         Transforms iterable with item features to iterator of predictions.
 

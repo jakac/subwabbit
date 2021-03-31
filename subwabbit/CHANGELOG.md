@@ -1,5 +1,9 @@
 # subwabbit
 
+## [2.1.0] - 2021-03-10 16:00 - Vaclav Blahut <vaclav.blahut@firma.seznam.cz>
+### Added
+- Probabilistic Label Tree support
+
 ## [2.0.2] - 2020-06-18 15:03 - Jan Seifert <jan.seifert@firma.seznam.cz>
 ### Fixed
 - remove obsolete `mypy-lang` dependency

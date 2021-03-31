@@ -4,7 +4,7 @@ import time
 import os
 import platform
 import subprocess
-from typing import Dict, Iterable, Any, List, Optional
+from typing import Dict, Iterable, Any, List, Optional, Union
 
 from .base import VowpalWabbitError, VowpalWabbitBaseModel, VowpalWabbitBaseFormatter
 
@@ -131,7 +131,7 @@ class VowpalWabbitNonBlockingProcess(VowpalWabbitBaseModel):
             timeout: Optional[float] = None,
             debug_info: Any = None,
             metrics: Optional[Dict] = None,
-            detailed_metrics: Optional[Dict] = None) -> Iterable[float]:
+            detailed_metrics: Optional[Dict] = None) -> Iterable[Union[float,str]]:
         """
         Transforms iterable with item features to iterator of predictions.
 

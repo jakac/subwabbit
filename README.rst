@@ -131,6 +131,15 @@ Then implementation with use of formatter can look like this:
 
 
 
+Probabilitic Label Tree
+```````````````````````
+
+To use `PLT <https://vowpalwabbit.org/blog/vowpalwabbit-8.9.0.html#probabilistic-label-tree>`_ functionality
+of Vowpal Wabbit, you should use **VowpalWabbitPLTProcess**, which allows training and prediction with labels
+consisting of one or more zero-based integers separated by commas.
+
+
+
 Benchmarks
 ----------
 
@@ -192,7 +201,7 @@ Table shows how many lines implementation can predict in 10ms:
 License
 -------
 
-Copyright (c) 2016 - 2018, Seznam.cz, a.s.
+Copyright (c) 2016 - 2021, Seznam.cz, a.s.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
